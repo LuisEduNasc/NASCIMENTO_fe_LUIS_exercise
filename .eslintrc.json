@@ -120,7 +120,7 @@
     ],
     "import/no-cycle": 0, // off by default, should be checked regularly
     "import/named": 0,
-    "react/jsx-fragments": [1, "element"],
+    "react/jsx-fragments": ["off"],
     "react/jsx-no-target-blank": 0,
     "react/jsx-filename-extension": 0,
     "react/forbid-prop-types": 0,
