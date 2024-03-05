@@ -16,7 +16,7 @@ export interface MemberData {
     lastName: string;
     displayName: string;
     location: string;
-    avatar: string;
+    avatarUrl: string;
 }
 
 export interface ListItemColumn {

@@ -39,7 +39,7 @@ describe('pages/teamOverview', () => {
             lastName: 'userData',
             displayName: 'userData',
             location: '',
-            avatar: '',
+            avatarUrl: '',
         };
 
         jest.spyOn(realUseFetchTeamOverview, 'useFetchTeamOverview').mockImplementation(() => ({

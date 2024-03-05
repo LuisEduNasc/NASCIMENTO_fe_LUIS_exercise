@@ -17,7 +17,7 @@ describe('pages/memberOverview', () => {
             lastName: 'User',
             displayName: 'userName',
             location: 'location',
-            avatar: 'avatar',
+            avatarUrl: 'avatar',
         };
 
         jest.spyOn(realUseFetchMember, 'useFetchMember').mockImplementation(() => ({

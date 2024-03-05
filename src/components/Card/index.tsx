@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Teams, MemberData} from 'types';
-import {Container} from './styles';
+import {AvatarContainer, Container, InfoContainer, InfoTitle} from './styles';
 
 interface Props {
     id?: string;
@@ -36,10 +36,19 @@ const Card = ({
                 e.preventDefault();
             }}
         >
+            {navigationProps && 'avatarUrl' in navigationProps ? (
+                <AvatarContainer>
+                    <img src={navigationProps.avatarUrl} width={45} height={45} alt="Avatar" />
+                </AvatarContainer>
+            ) : null}
+
             {columns.map(({key: columnKey, value}) => (
-                <p key={columnKey}>
-                    <strong>{columnKey}</strong>&nbsp;{value}
-                </p>
+                <InfoContainer key={columnKey}>
+                    <InfoTitle>{columnKey}</InfoTitle>
+                    <p>
+                        <strong>{value}</strong>
+                    </p>
+                </InfoContainer>
             ))}
         </Container>
     );

@@ -2,6 +2,7 @@ import React from 'react';
 
 import Card from 'components/card';
 import {MemberData} from 'types';
+import {Container} from './styles';
 
 export const TeamLeadCard: React.FC<{teamLeadData: MemberData}> = ({teamLeadData}) => {
     const columns = [
@@ -24,6 +25,13 @@ export const TeamLeadCard: React.FC<{teamLeadData: MemberData}> = ({teamLeadData
     ];
 
     return (
-        <Card columns={columns} url={`/user/${teamLeadData.id}`} navigationProps={teamLeadData} />
+        <Container>
+            <Card
+                columns={columns}
+                url={`/user/${teamLeadData.id}`}
+                navigationProps={teamLeadData}
+                id={teamLeadData.id}
+            />
+        </Container>
     );
 };
