@@ -16,7 +16,7 @@
     "lib": ["DOM", "ESNext", "WebWorker"],
     "outDir": "dist",
     "paths": {
-      "error-boundaries": ["./component/common/ErrorBoundaries.tsx"],
+      "error-boundaries": ["./component/errorBoundaries.tsx"],
       "test-utils": ["test-utils"],
       "@temposoftware/tempo-i18n": ["./translate.ts"]
     }

@@ -46,6 +46,7 @@ export const SearchInput: React.FC<Props> = ({searchBy, urlFilter = ''}) => {
                 placeholder={`Search ${searchBy} name...`}
                 value={searchValue}
                 onChange={e => setSearchValue(e.target.value)}
+                data-testid="search-input"
             />
         </Container>
     );

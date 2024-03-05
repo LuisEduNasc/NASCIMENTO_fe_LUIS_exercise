@@ -1,9 +1,8 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import {useParams, useSearchParams} from 'react-router-dom';
-import {keepPreviousData, useQuery} from '@tanstack/react-query';
 
-import {TeamOverview as ITeamOverview, ListItem, MemberData} from 'types';
-import {getTeamOverview, getUserData} from 'api';
+import {ListItem} from 'types';
+import {getUserData} from 'api';
 import {Container} from 'components/globalComponents';
 import Header from 'components/header';
 import List from 'components/list';
@@ -12,6 +11,8 @@ import {membersList} from 'utils/membersList';
 import {Spinner} from 'components/spinner';
 import {Error} from 'pages/error';
 import {SearchInput} from 'components/searchInput';
+import {useFetchTeamOverview} from 'hooks/useFetchTeamOverview';
+import {useFetchMember} from 'hooks/useFetchMember';
 
 export const TeamOverview: React.FC = () => {
     const [membersListState, setMembersListState] = useState<ListItem[]>([]);
@@ -24,12 +25,7 @@ export const TeamOverview: React.FC = () => {
         data: teamData,
         isLoading: isLoadingTeam,
         isError: isErrorTeam,
-    } = useQuery<ITeamOverview>({
-        queryKey: ['get-team', teamId],
-        queryFn: () => getTeamOverview(teamId),
-        placeholderData: keepPreviousData,
-        staleTime: 1000 * 60,
-    });
+    } = useFetchTeamOverview({teamId});
 
     const teamLeadId = teamData?.teamLeadId;
 
@@ -37,13 +33,7 @@ export const TeamOverview: React.FC = () => {
         data: teamLeadData,
         isLoading: isLoadingTeamLead,
         isError: isErrorTeamLead,
-    } = useQuery<MemberData>({
-        queryKey: ['get-team-lead', teamId],
-        queryFn: () => getUserData(teamData.teamLeadId),
-        placeholderData: keepPreviousData,
-        staleTime: 1000 * 60,
-        enabled: !!teamLeadId,
-    });
+    } = useFetchMember({key: 'get-team-lead', memberId: teamLeadId});
 
     const handleGetMembersList = useCallback(async () => {
         setIsLoadingMembers(true);

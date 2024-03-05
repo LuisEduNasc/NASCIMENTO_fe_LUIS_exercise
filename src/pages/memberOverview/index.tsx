@@ -1,14 +1,12 @@
 import React from 'react';
 import {useParams} from 'react-router-dom';
-import {keepPreviousData, useQuery} from '@tanstack/react-query';
 
 import {Container} from 'components/globalComponents';
 import Header from 'components/header';
 import {MemberCard} from 'components/memberCard';
-import {MemberData} from 'types';
-import {getUserData} from 'api';
 import {Spinner} from 'components/spinner';
 import {Error} from 'pages/error';
+import {useFetchMember} from 'hooks/useFetchMember';
 
 export const MemberOverview: React.FC = () => {
     const params = useParams();
@@ -18,12 +16,7 @@ export const MemberOverview: React.FC = () => {
         data: memberData,
         isLoading,
         isError,
-    } = useQuery<MemberData>({
-        queryKey: ['get-member', userId],
-        queryFn: () => getUserData(userId),
-        placeholderData: keepPreviousData,
-        staleTime: 1000 * 60,
-    });
+    } = useFetchMember({key: 'get-member', memberId: userId});
 
     if (isError) {
         return <Error />;

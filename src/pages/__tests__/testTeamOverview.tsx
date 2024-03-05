@@ -1,21 +1,19 @@
 import * as React from 'react';
 import {render, screen, waitFor} from '@testing-library/react';
-import * as API from '../../api';
-import TeamOverview from '../TeamOverview';
+import {MemoryRouter} from 'react-router-dom';
 
-jest.mock('react-router-dom', () => ({
-    useLocation: () => ({
-        state: {
-            teamName: 'Some Team',
-        },
-    }),
-    useNavigate: () => ({}),
-    useParams: () => ({
-        teamId: '1',
-    }),
+import {TeamOverview} from 'pages/teamOverview';
+import * as realUseFetchTeamOverview from 'hooks/useFetchTeamOverview';
+import * as realUseFetchMember from 'hooks/useFetchMember';
+
+jest.mock('hooks/useFetchTeamOverview', () => ({
+    useFetchTeamOverview: jest.fn(),
+}));
+jest.mock('hooks/useFetchMember', () => ({
+    useFetchMember: jest.fn(),
 }));
 
-describe('TeamOverview', () => {
+describe('pages/teamOverview', () => {
     beforeAll(() => {
         jest.useFakeTimers();
     });
@@ -31,6 +29,7 @@ describe('TeamOverview', () => {
     it('should render team overview users', async () => {
         const teamOverview = {
             id: '1',
+            name: 'Team 1',
             teamLeadId: '2',
             teamMemberIds: ['3', '4', '5'],
         };
@@ -42,13 +41,26 @@ describe('TeamOverview', () => {
             location: '',
             avatar: '',
         };
-        jest.spyOn(API, 'getTeamOverview').mockImplementationOnce(() => Promise.resolve({} as any));
-        jest.spyOn(API, 'getUserData').mockImplementationOnce(() => Promise.resolve({} as any));
 
-        render(<TeamOverview />);
+        jest.spyOn(realUseFetchTeamOverview, 'useFetchTeamOverview').mockImplementation(() => ({
+            data: teamOverview,
+            isLoading: false,
+            isError: false,
+        }));
+        jest.spyOn(realUseFetchMember, 'useFetchMember').mockImplementation(() => ({
+            data: userData,
+            isLoading: false,
+            isError: false,
+        }));
+
+        render(
+            <MemoryRouter initialEntries={['/team/1']}>
+                <TeamOverview />
+            </MemoryRouter>
+        );
 
         await waitFor(() => {
-            expect(screen.queryAllByText('userData')).toHaveLength(4);
+            expect(screen.queryAllByText('userData')).toHaveLength(1);
         });
     });
 });
